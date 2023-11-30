@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let arr = ["rock", "paper", "scissors"];
+        let playerSelection;
+        let computerSelection;
+        let playerScore;
+        let computerScore;
+        
+        game();
+        
+        function game(){
+            for (let i = 0; i < 5; i++){
+
+                do{
+                playerSelection = prompt("Your choice:").toLowerCase();
+                }
+                while (!arr.includes(playerSelection));
+
+                computerSelection = getComputerChoice();
+
+                match = playRound(playerSelection, computerSelection);
+                switch(match){
+                    case "win":
+                        alert(`You Win! ${playerSelection} beats ${computerSelection}`)
+                        playerScore += 1;
+                        break;
+                    case "loss":
+                        alert(`You Lose! ${computerSelection} beats ${playerSelection}`)
+                        computerScore += 1;
+                        break;
+                    case "tie":
+                        alert("It's a tie!");
+                        i--;
+                        break;
+                }
+            }
+            if (playerScore > computerScore){
+                alert("You win the game!")
+            }
+            else{
+                alert("You lose the game!")
+            }
+        }
+
+
+        function playRound(playerSelection, computerSelection) {
+            let round;
+            switch(playerSelection){
+                case "rock":
+                    switch(computerSelection){
+                        case "rock":
+                            round = "tie";
+                            break;
+                        case "paper":
+                            round = "loss";
+                            break;
+                        case "scissors":
+                            round = "win";
+                            break;
+                    }
+                    break;
+                case "paper":
+                    switch(computerSelection){
+                        case "paper":
+                            round = "tie";
+                            break;
+                        case "scissors":
+                            round = "loss";
+                            break;
+                        case "rock":
+                            round = "win";
+                            break;   
+                    }
+                    break;
+                case "scissors":
+                    switch(computerSelection){
+                        case "scissors":
+                            round = "tie";
+                            break;
+                        case "rock":
+                            round = "loss";
+                            break;
+                        case "paper":
+                            round = "win";
+                            break;
+                    }
+                    break;
+            }
+            return round;
+        }
+
+        function getComputerChoice(){
+            let num = Math.floor(Math.random() * 3);
+            let result;
+            switch(num){
+                case 0:
+                    result = "rock";
+                    break;
+                case 1:
+                    result = "paper";
+                    break;
+                case 2: 
+                    result = "scissors";
+                    break;
+            }
+            console.log(result);
+            return result;
+        }
+    </script>
+</body>
+</html>
