@@ -4,51 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        html{
+            background-color: rgb(80, 84, 89);
+            font-family: Roboto, sans-serif;
+        }
+        .prompt{
+            text-align: center;
+            font-weight: 600;
+            color: rgb(234, 238, 243);
+        }
+        .choice{
+            border-radius: 5px;
+            width: 40%;
+            margin: auto;
+            display: flex;
+            justify-content: space-around;
+        }
+        button{
+            font-size: xx-large;
+            width: 5rem;
+        }
+
+        
+        .you,.computer{
+            font-size: 3rem;
+        }
+        
+        .scoretext{
+            text-align: center;
+            font-size: 4rem;
+            color: rgb(247, 180, 23);
+        }
+
+        .comment{
+            text-align: center;
+            font-size: 2rem;
+            color: rgb(225, 164, 22);
+        }
+        
+        .scoreboard{
+            text-align: center;
+            font-size: 10rem;
+            color: rgb(234, 238, 243);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: nowrap;
+        }
+        .you,
+        .computer,
+        .score{
+            flex: 1;
+            text-wrap: nowrap;
+        }
+    </style>
 </head>
 <body>
+    <p class="prompt">Choose your weapon:</p>
+    <div class="choice">
+        <button class="rock">✊🏻</button>
+        <button class="paper">✋🏻</button>
+        <button class="scissors">✌🏻</button>
+    </div>
+    
+    <div class="scoreboard">
+        <div class="you">You</div>
+        <div class="score">0 - 0</div>
+        <div class="computer">Computer</div>
+    </div>
+    <div class="scoretext">Score</div>
+    <div class="comment"></div>
     <script>
         let arr = ["rock", "paper", "scissors"];
         let playerSelection;
         let computerSelection;
-        let playerScore;
-        let computerScore;
+        let playerScore = 0;
+        let computerScore = 0;
         
-        game();
         
-        function game(){
-            for (let i = 0; i < 5; i++){
+        const rock = document.querySelector('.rock');
+        const paper = document.querySelector('.paper');
+        const scissors = document.querySelector('.scissors');
+        const score = document.querySelector('.score');
+        const comment = document.querySelector('.comment');
 
-                do{
-                playerSelection = prompt("Your choice:").toLowerCase();
-                }
-                while (!arr.includes(playerSelection));
+        rock.addEventListener('click', () => {
+            playerSelection = 'rock';
+            roundBtn(playerSelection);
+        });
 
-                computerSelection = getComputerChoice();
+        paper.addEventListener('click', () => {
+            playerSelection = 'paper';
+            roundBtn(playerSelection);
+        });
 
-                match = playRound(playerSelection, computerSelection);
-                switch(match){
+        scissors.addEventListener('click', () => {
+            playerSelection = 'scissors';
+            roundBtn(playerSelection);
+        });
+        
+        function roundBtn(playerSelection){
+            computerSelection = getComputerChoice();
+            let round = playRound(playerSelection, computerSelection);
+            changeScore(round);
+            
+            score.textContent = `${playerScore} - ${computerScore}`;
+           
+            if (playerScore == 3){
+                comment.textContent = "You win the game! 🎉";
+                playerScore = 0;
+                computerScore = 0;
+            }
+            if (computerScore == 3){
+                comment.textContent = "You lose the game! 😢 ";
+                playerScore = 0;
+                computerScore = 0;
+            }
+
+        }
+        
+        function changeScore(round){
+            switch(round){
                     case "win":
-                        alert(`You Win! ${playerSelection} beats ${computerSelection}`)
+                        // alert(`You Win! ${playerSelection} beats ${computerSelection}`)
+                        comment.textContent = `You Win! ${playerSelection} beats ${computerSelection}`;
                         playerScore += 1;
                         break;
                     case "loss":
-                        alert(`You Lose! ${computerSelection} beats ${playerSelection}`)
+                        comment.textContent = `You Lose! ${computerSelection} beats ${playerSelection}`;
                         computerScore += 1;
                         break;
                     case "tie":
-                        alert("It's a tie!");
-                        i--;
+                        comment.textContent = "It's a tie!";
                         break;
                 }
-            }
-            if (playerScore > computerScore){
-                alert("You win the game!")
-            }
-            else{
-                alert("You lose the game!")
-            }
+                return;
         }
-
 
         function playRound(playerSelection, computerSelection) {
             let round;
@@ -84,8 +176,8 @@
                         case "scissors":
                             round = "tie";
                             break;
-                        case "rock":
-                            round = "loss";
+                            case "rock":
+                                round = "loss";
                             break;
                         case "paper":
                             round = "win";
@@ -112,6 +204,40 @@
             }
             console.log(result);
             return result;
+        }
+        
+        function game(){
+            for (let i = 0; i < 5; i++){
+
+                do{
+                playerSelection = prompt("Your choice:").toLowerCase();
+                }
+                while (!arr.includes(playerSelection));
+
+                computerSelection = getComputerChoice();
+
+                match = playRound(playerSelection, computerSelection);
+                switch(match){
+                    case "win":
+                        alert(`You Win! ${playerSelection} beats ${computerSelection}`)
+                        playerScore += 1;
+                        break;
+                    case "loss":
+                        alert(`You Lose! ${computerSelection} beats ${playerSelection}`)
+                        computerScore += 1;
+                        break;
+                    case "tie":
+                        alert("It's a tie!");
+                        i--;
+                        break;
+                }
+            }
+            if (playerScore > computerScore){
+                alert("You win the game!")
+            }
+            else{
+                alert("You lose the game!")
+            }
         }
     </script>
 </body>
